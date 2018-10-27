@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-  <script src="ejs.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyDFL4iZ28FKs04fBo51QMi6HZHLhMYm4mU",
-      authDomain: "shopee-89386.firebaseapp.com",
-      databaseURL: "https://shopee-89386.firebaseio.com",
-      projectId: "shopee-89386",
-      storageBucket: "shopee-89386.appspot.com",
-      messagingSenderId: "370597332859"
-    };
-    firebase.initializeApp(config);
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="ejs.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDFL4iZ28FKs04fBo51QMi6HZHLhMYm4mU",
+            authDomain: "shopee-89386.firebaseapp.com",
+            databaseURL: "https://shopee-89386.firebaseio.com",
+            projectId: "shopee-89386",
+            storageBucket: "shopee-89386.appspot.com",
+            messagingSenderId: "370597332859"
+        };
+        firebase.initializeApp(config);
 
-    // Initialize Cloud Firestore through Firebase
-    var db = firebase.firestore();
+        // Initialize Cloud Firestore through Firebase
+        var db = firebase.firestore();
 
-    // Disable deprecated features
-    db.settings({
-      timestampsInSnapshots: true
-    });
-  </script>
-   <style>
-    .toolbaricon {
+        // Disable deprecated features
+        db.settings({
+            timestampsInSnapshots: true
+        });
+    </script>
+    <style>
+        .toolbaricon {
       padding-left: 5px;
       padding-bottom: 5px;
       padding-right: 5px;
@@ -38,29 +40,97 @@
     }
   </style>
 </head>
+
 <body>
     <ons-page>
         <ons-toolbar>
-          <div class="left">
-            <ons-icon class="toolbaricon" size="30px" icon="arrow-circle-left">
-            </ons-icon>
-          </div>
-          <div class="center" id="appname">#</div>
-          <div class="right">
-            <ons-icon class="toolbaricon" size="30px" icon="arrow-circle-right">
-            </ons-icon>
-          </div>
+            <div class="left">
+                <ons-icon class="toolbaricon" size="30px" icon="arrow-circle-left">
+                </ons-icon>
+            </div>
+            <div class="center" id="appname">#</div>
+            <div class="right">
+                <ons-icon class="toolbaricon" size="30px" icon="arrow-circle-right">
+                </ons-icon>
+            </div>
         </ons-toolbar>
-    
+
         <ons-tabbar swipeable position="auto">
-          <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" active>
-          </ons-tab>
-          <ons-tab page="tab3.html" label="Product" icon="grip-horizontal" active-icon="grip-horizontal">
-          </ons-tab>
-          <ons-tab page="tab2.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
-          </ons-tab>
-    
+            <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" active>
+            </ons-tab>
+            <ons-tab page="tab3.html" label="Product" icon="grip-horizontal" active-icon="grip-horizontal">
+            </ons-tab>
+            <ons-tab page="tab2.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
+            </ons-tab>
+
         </ons-tabbar>
-      </ons-page>
+    </ons-page>
+
+    <template id="tab1.html">
+        <ons-page id="Tab1">
+            <p style="text-align: center; margin-top: 10px;">
+                <ons-search-input placeholder="Search" onchange="ons.notification.alert('Searched for: ' + this.value)"></ons-search-input>
+            </p>
+            <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
+                <ons-carousel-item id="carousel1" style="background: url('images/1.jpg') no-repeat center; background-size: contain;">
+                </ons-carousel-item>
+                <ons-carousel-item id="carousel2" style="background: url('images/2.jpg') no-repeat center; background-size: contain;">
+                </ons-carousel-item>
+                <ons-carousel-item id="carousel3" style="background: url('images/3.jpg') no-repeat center; background-size: contain;">
+                </ons-carousel-item>
+            </ons-carousel>
+
+            <div id="icons"></div>
+
+            <script id="icon_template" type="text/template">
+            <ons-row style="height:120px" vertical-align="center">  
+            <% categories.forEach(function(category){%>  
+            <ons-col style="background:<%= category.color %>;" width="33%">
+              <p style="text-align: center; margin: 10px;">
+                <ons-icon size="60px" icon="<%= category.icon %>"></ons-icon>
+              </p>
+              <p style="text-align: center; margin: 10px;" id="icon1_text">
+                <%= category.name %>
+              </p>
+            </ons-col>
+            <%});%>
+            </ons-row>
+            </script>
+
+
+        </ons-page>
+    </template>
+
+    <script>
+        getHomeData();
+        document.addEventListener('prechange', function (event) {
+            if (event.index == 0) {
+                console.log('Home clicked');
+                // get data for home screen  
+                getHomeData();
+            }
+        });
+        function getHomeData() {
+            var docRef = db.collection("UI").doc("home");
+            docRef.get().then(function (doc) {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                    var data = doc.data();
+                    $('#appname').html(data.appname);
+                    var style = "background: url('" + data.slides[0] + "') no-repeat center; background-size: contain;'";
+                    $('#carousel1').attr('style', style)
+                    var icon_template = $('#icon_template').html();
+                    var html = ejs.render(icon_template, { categories: data.categories });
+                    $('#icons').html(html);
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
+        }
+    </script>
 </body>
+
 </html>
