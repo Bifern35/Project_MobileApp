@@ -29,8 +29,38 @@
       timestampsInSnapshots: true
     });
   </script>
+   <style>
+    .toolbaricon {
+      padding-left: 5px;
+      padding-bottom: 5px;
+      padding-right: 5px;
+      color: orange;
+    }
+  </style>
 </head>
 <body>
+    <ons-page>
+        <ons-toolbar>
+          <div class="left">
+            <ons-icon class="toolbaricon" size="30px" icon="fa-shopping-bag">
+            </ons-icon>
+          </div>
+          <div class="center" id="appname">#</div>
+          <div class="right">
+            <ons-icon class="toolbaricon" size="30px" icon="md-help">
+            </ons-icon>
+          </div>
+        </ons-toolbar>
     
+        <ons-tabbar swipeable position="auto">
+          <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" badge="7" active>
+          </ons-tab>
+          <ons-tab page="tab3.html" label="Product" icon="fa-book" active-icon="fa-book">
+          </ons-tab>
+          <ons-tab page="tab2.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
+          </ons-tab>
+    
+        </ons-tabbar>
+      </ons-page>
 </body>
 </html>
