@@ -4,6 +4,7 @@
 <head>
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
         crossorigin="anonymous"></script>
@@ -36,7 +37,7 @@
       padding-left: 5px;
       padding-bottom: 5px;
       padding-right: 5px;
-      color: orange;
+      color: #B9264F;
     }
   </style>
 </head>
@@ -58,14 +59,15 @@
         <ons-tabbar swipeable position="auto">
             <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" active>
             </ons-tab>
-            <ons-tab page="tab3.html" label="Product" icon="grip-horizontal" active-icon="grip-horizontal">
+            <ons-tab page="tab2.html" label="Product" icon="grip-horizontal" active-icon="grip-horizontal">
             </ons-tab>
-            <ons-tab page="tab2.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
+            <ons-tab page="tab3.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
             </ons-tab>
 
         </ons-tabbar>
     </ons-page>
 
+    <!-- home -->
     <template id="tab1.html">
         <ons-page id="Tab1">
             <p style="text-align: center; margin-top: 10px;">
@@ -96,11 +98,48 @@
             <%});%>
             </ons-row>
             </script>
-
-
         </ons-page>
     </template>
 
+    <!-- all product -->
+    <template id="tab2.html">
+        <ons-page id="Tab2">
+            <ons-list>
+                <ons-list-header>Product List</ons-list-header>
+                <div id="products" class="products"></div>
+                <script id="product_template" type="text/template">
+                    <ons-row style="height:100" vertical-align="center">  
+                    <% products.forEach(function(products){
+                        var product = products.data();%> 
+                        <ons-col width="50%">
+                            <div>
+                            <div style="text-align: center; margin: 10px;">
+                                <img class="list-item__thumbnail" style="height: 150px;
+                                width: 150px;"src="<%= product.img %>">
+                            </div>
+                            <div style="text-align: center; margin: 10px; white-space: nowrap;
+                            overflow: hidden; text-overflow: ellipsis;" id="icon1_text">
+                                <%= product.name %>
+                            </div>
+                            <div style="text-align: center; margin: 10px; color:blue;" id="icon1_text">
+                                ฿<%= product.price %>
+                            </div>
+                            </div>
+                          </ons-col>
+                  <!-- <ons-list-item>
+                    <div class="left">
+                      <img class="list-item__thumbnail" src="<%= product.img %>">
+                    </div>
+                    <div class="center">
+                      <span class="list-item__title"><%= product.name %></span>
+                      <span class="list-item__subtitle" style="color: blue">฿<%= product.price %></span>
+                    </div>
+                  </ons-list-item> -->
+                  <%});%>
+                </script>
+            </ons-list>
+        </ons-page>
+    </template>
     <script>
         getHomeData();
         document.addEventListener('prechange', function (event) {
@@ -108,6 +147,10 @@
                 console.log('Home clicked');
                 // get data for home screen  
                 getHomeData();
+            } else if (event.index == 1) {
+                console.log('Product clicked');
+                // get data for product screen  
+                getProductData();
             }
         });
         function getHomeData() {
@@ -128,6 +171,27 @@
                 }
             }).catch(function (error) {
                 console.log("Error getting document:", error);
+            });
+        }
+        function getProductData() {
+            //get all product form firebase
+            var allProductRef = db.collection("PRODUCTS");
+            allProductRef.get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    // doc.data() is never undefined for query doc snapshots
+
+                    if (doc.exists) {
+                        console.log(doc.id, " => ", doc.data());
+                        var product_template = $('#product_template').html();
+                        var html = ejs.render(product_template, { products : querySnapshot.docs });
+                        $('#products').html(html);
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                    }
+                }).catch(function (error) {
+                    console.log("Error getting document:", error);
+                });
             });
         }
     </script>
