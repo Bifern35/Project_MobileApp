@@ -43,29 +43,31 @@
 </head>
 
 <body>
-    <ons-page>
-        <ons-toolbar>
-            <div class="left">
-                <ons-icon class="toolbaricon" size="30px" icon="arrow-circle-left">
-                </ons-icon>
-            </div>
-            <div class="center" id="appname">#</div>
-            <div class="right">
-                <ons-icon class="toolbaricon" size="30px" icon="arrow-circle-right">
-                </ons-icon>
-            </div>
-        </ons-toolbar>
+    <ons-navigator swipeable id="myNavigator">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-icon class="toolbaricon" size="30px" icon="fa-shopping-bag">
+                    </ons-icon>
+                </div>
+                <div class="center" id="appname">#</div>
+                <div class="right">
+                    <ons-icon class="toolbaricon" size="30px" icon="md-help">
+                    </ons-icon>
+                </div>
+            </ons-toolbar>
 
-        <ons-tabbar swipeable position="auto" id="tabbar">
-            <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" active>
-            </ons-tab>
-            <ons-tab page="tab2.html" label="Product" icon="grip-horizontal" active-icon="grip-horizontal">
-            </ons-tab>
-            <ons-tab page="tab3.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
-            </ons-tab>
+            <ons-tabbar swipeable position="auto" id="tabbar">
+                <ons-tab page="tab1.html" label="Home" icon="ion-home, material:md-home" active>
+                </ons-tab>
+                <ons-tab page="tab2.html" label="Product" icon="grip-horizontal" active-icon="grip-horizontal">
+                </ons-tab>
+                <ons-tab page="tab3.html" label="Cart" icon="fa-shopping-cart" active-icon="fa-shopping-cart">
+                </ons-tab>
 
-        </ons-tabbar>
-    </ons-page>
+            </ons-tabbar>
+        </ons-page>
+    </ons-navigator>
 
     <!-- home -->
     <template id="tab1.html">
@@ -88,7 +90,8 @@
             <ons-row style="height:120px" vertical-align="center">  
             <% categories.forEach(function(category){%>  
             <ons-col style="background:<%= category.color %>;" width="33%" onclick="changeTab('<%= category.name %>')">
-              <p style="text-align: center; margin: 10px;">
+              
+                <p style="text-align: center; margin: 10px;">
                 <ons-icon size="60px" icon="<%= category.icon %>"></ons-icon>
               </p>
               <p style="text-align: center; margin: 10px;" id="icon1_text">
@@ -112,11 +115,13 @@
                     <ons-row style="height:100" vertical-align="center">  
                     <% products.forEach(function(products){
                         var product = products.data();%> 
-                        <ons-col width="50%">
+                        
+                        <ons-col width="50%" onclick="getDetail('<%= product.name%>')">
+                                <ons-card>
                             <div>
                             <div style="text-align: center; margin: 10px;">
-                                <img class="list-item__thumbnail" style="height: 150px;
-                                width: 150px;"src="<%= product.img %>">
+                                <img class="list-item__thumbnail" style="height: 100px;
+                                width: 100px;"src="<%= product.img %>">
                             </div>
                             <div style="text-align: center; margin: 10px; white-space: nowrap;
                             overflow: hidden; text-overflow: ellipsis;" id="icon1_text">
@@ -126,12 +131,14 @@
                                 ฿<%= product.price %>
                             </div>
                             </div>
+                        </ons-card>
                           </ons-col>
-                 
+                        
                   <%});%>
                 </script>
         </ons-page>
     </template>
+
     <!-- cart -->
     <template id="tab3.html">
         <ons-page id="Tab3">
@@ -162,7 +169,64 @@
             </p>
         </ons-page>
     </template>
-        <script src="default.js"></script>
+
+    <template id="detail.html">
+        <ons-page>
+            <script>
+                var productDetail = localStorage.getItem('detail');
+                console.log(productDetail)
+            </script>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
+                <div class="center">Detail</div>
+            </ons-toolbar>
+
+            <div id="showDetail"></div>
+
+            <script id="productDetail_template" type="text/template">
+              <ons-card>
+                    <% productDetail.forEach(function(productDetail){   
+                        var data = productDetail.data(); %>
+                  <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
+                    
+                        <ons-carousel-item id="carousel1DeP" style="background: url('<%= data.img%>') no-repeat center; background-size: contain;">
+                        </ons-carousel-item>
+                        <ons-carousel-item id="carousel2DeP" style="background: url('') no-repeat center; background-size: contain;">
+                        </ons-carousel-item>
+                        <ons-carousel-item id="carousel3DeP" style="background: url('') no-repeat center; background-size: contain;">
+                        </ons-carousel-item>
+          
+                 </ons-carousel>
+                 <div>
+                        <%= data.name %>
+                      </div>  
+                  <div>
+                    <%= data.price%>
+                  </div>
+                  <div>
+                        <%= data.detail%>
+                      </div>
+                  <div>
+                    
+                    <ons-list>
+                      <ons-list-header>Bindings</ons-list-header>
+                      <ons-list-item>Vue</ons-list-item>
+                      <ons-list-item>Angular</ons-list-item>
+                      <ons-list-item>React</ons-list-item>
+                    </ons-list>
+                  </div>
+                  <%})%>
+                </ons-card>
+                
+           </script>
+
+        </ons-page>
+    </template>
+
+
+    <script src="default.js"></script>
 </body>
 
 </html>

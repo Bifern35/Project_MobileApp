@@ -7,15 +7,15 @@ document.addEventListener('prechange', function (event) {
     } else if (event.index == 1) {
         console.log('Product clicked');
         // get data for product screen  
-        var name1 = localStorage.getItem('name');
-        console.log("test" + name1)
+        var category = localStorage.getItem('name');
+        console.log(category)
         // get data for all product screen  
-        if (name1 == null) {
-            console.log(name1)
-            getProductData(name1);
+        if (category == null) {
+            console.log(category)
+            getProductData(category);
         }
         else {
-            getProductData(name1)
+            getProductData(category)
         }
         localStorage.clear();
     } else if (event.index == 2) {
@@ -94,3 +94,20 @@ function getCartData() {
     });
 }
 
+function getDetail(detail) {
+    localStorage.setItem("detail", detail)
+    showDetailP();
+    myNavigator.pushPage('detail.html');
+
+}
+
+function showDetailP() {
+    var dataproduct = localStorage.getItem('detail');
+    var apr = db.collection("PRODUCTS").where("name", "==", dataproduct);
+    apr.get().then(function (querySnapshot) {
+        var Detailproduct_template = $('#productDetail_template').html();
+        var html = ejs.render(Detailproduct_template, { productDetail: querySnapshot.docs });
+        $('#showDetail').html(html);
+    })
+
+} 
