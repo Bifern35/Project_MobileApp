@@ -142,31 +142,36 @@
     <!-- cart -->
     <template id="tab3.html">
         <ons-page id="Tab3">
-            <div id="carts"></div>
-            <script id="cart_template" type="text/template">
-              <ons-list>
-                <ons-list-header>Shopping Cart</ons-list-header>
-                <% cart.forEach(function(cart){%> 
-                <ons-list-item>
-                  <div class="left">
-                    <img class="list-item__thumbnail" src="<%= cart.photo %>">
-                  </div>
-                  <div class="center">
-                    <span class="list-item__title"><%= cart.itemname %></span>
-                    <span class="list-item__subtitle" style="color: blue">฿<%= cart.price %></span>
-                  </div>
-                  <div class="right">
-                    <p style="text-align: center; margin: 10px;">
-                      <ons-icon style="color: grey" size="30px" icon="md-delete"></ons-icon>
-                    </p>
-                  </div>
-                </ons-list-item>
-                <%});%>
-              </ons-list>
-            </script>
-            <p style="text-align: center; margin: 10px;">
-                <ons-button modifier="large">PROCEED TO PAY</ons-button>
-            </p>
+                <p><h5><b>Shopping Cart</b></h5></p>
+        
+                <div id="showDataCart"></div>
+                
+                     <script id="cart_template" type="text/template">
+                      <ons-list>
+                        
+                      <% cartData.forEach(function(cartData){
+                          var cartData = cartData.data(); 
+                        %>
+                        <ons-list-item>
+                          <div class="left">
+                            <img class="list-item__thumbnail" src="<%=cartData.img%>">
+                          </div>
+                          <div class="center">
+                            <span class="list-item__title"><%=cartData.name%></span>
+                            <span class="list-item__subtitle" style="color: blue"><%=cartData.price%></span>
+                          </div>
+                          <div class="right">
+                            <p style="text-align: center; margin: 10px;">
+                              <ons-icon style="color: grey" size="30px" icon="md-delete"></ons-icon>
+                            </p>
+                          </div>
+                        </ons-list-item>    
+                      </ons-list>
+                      <%})%>
+                    </script>
+                      <p style="text-align: center; margin: 10px;">
+                        <ons-button modifier="large">PROCEED TO PAY</ons-button>
+                      </p>
         </ons-page>
     </template>
 
@@ -217,7 +222,9 @@
                       <ons-list-item>React</ons-list-item>
                     </ons-list>
                   </div>
+                  <ons-button onclick="addtocart('<%= data.name %>')">Add to Cart</ons-button>
                   <%})%>
+
                 </ons-card>
                 
            </script>

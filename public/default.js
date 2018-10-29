@@ -21,8 +21,8 @@ document.addEventListener('prechange', function (event) {
     } else if (event.index == 2) {
         console.log('Cart clicked');
         // get data for cart screen  
-        getCartData();
-    }
+        getData2cart();
+    } 
 });
 function changeTab(name) {
     localStorage.setItem('name', name);
@@ -75,24 +75,24 @@ function getProductData(name1) {
         })
     }
 }
-function getCartData() {
-    var docRef = db.collection("UI").doc("cart");
-    docRef.get().then(function (doc) {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            var data = doc.data();
-            $('#appname').html(data.appname);
-            var cart_template = $('#cart_template').html();
-            var html = ejs.render(cart_template, { cart: data.cart });
-            $('#carts').html(html);
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch(function (error) {
-        console.log("Error getting document:", error);
-    });
-}
+// function getCartData() {
+//     var docRef = db.collection("UI").doc("cart");
+//     docRef.get().then(function (doc) {
+//         if (doc.exists) {
+//             console.log("Document data:", doc.data());
+//             var data = doc.data();
+//             $('#appname').html(data.appname);
+//             var cart_template = $('#cart_template').html();
+//             var html = ejs.render(cart_template, { cart: data.cart });
+//             $('#carts').html(html);
+//         } else {
+//             // doc.data() will be undefined in this case
+//             console.log("No such document!");
+//         }
+//     }).catch(function (error) {
+//         console.log("Error getting document:", error);
+//     });
+// }
 
 function getDetail(detail) {
     localStorage.setItem("detail", detail)
@@ -111,3 +111,31 @@ function showDetailP() {
     })
 
 } 
+
+var dataCart = [];
+function addtocart(add2cart){
+  localStorage.clear('quentinTarantino');
+localStorage.setItem('quentinTarantino',add2cart);
+var retrievedData = localStorage.getItem("quentinTarantino");
+console.log(retrievedData);
+dataCart.push(retrievedData);
+alert(dataCart);
+}
+
+function getData2cart(){
+  console.log('functioncart');
+  console.log(dataCart);
+  document.getElementById('showDataCart').innerHTML = '';
+  dataCart.forEach(function(dataCart){
+    var apr = db.collection("PRODUCTS").where("name", "==", dataCart);
+    apr.get().then(function (querySnapshot) {
+      console.log(querySnapshot.docs)
+      var cart_template = $('#cart_template').html();
+      var html = ejs.render(cart_template, { cartData: querySnapshot.docs });
+      
+      $('#showDataCart').append(html); 
+    
+    })
+    
+  })
+}
