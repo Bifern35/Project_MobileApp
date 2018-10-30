@@ -7,22 +7,26 @@ document.addEventListener('prechange', function (event) {
     } else if (event.index == 1) {
         console.log('Product clicked');
         // get data for product screen  
-        var category = localStorage.getItem('name');
+        var category = localStorage.getItem('category');
+        var product = localStorage.getItem('products');
         console.log(category)
         // get data for all product screen  
-        if (category == null) {
+        if (category == null && product == null) {
             console.log(category)
-            getProductData(category);
+            getProductData();
+        }
+        else if (category != null && product == null) {
+            getProductData(category)
+            localStorage.clear();
         }
         else {
-            getProductData(category)
+            localStorage.clear10();
         }
-        localStorage.clear();
     } else if (event.index == 2) {
         console.log('Cart clicked');
         // get data for cart screen  
         getcart();
-    } 
+    }
 });
 function changeTab(name) {
     localStorage.setItem('name', name);
@@ -53,14 +57,14 @@ function getHomeData() {
     });
 }
 
-function getProductData(name1) {
+function getProductData(name) {
     //Get all product firebase
-    if (name1 == null) {
+    if (name == null) {
         var apr = db.collection("PRODUCTS")
         apr.get().then(function (querySnapshot) {
 
             var product_template = $('#product_template').html();
-            console.log(querySnapshot);
+            console.log(querySnapshot.doc);
             var html = ejs.render(product_template, { products: querySnapshot.docs });
             $('#products').html(html);
         })
@@ -92,33 +96,63 @@ function showDetailP() {
         $('#showDetail').html(html);
     })
 
-} 
+}
 
 var incarts = [];
-function addtocart(add2cart){
-  localStorage.clear('quentinTarantino');
-localStorage.setItem('quentinTarantino',add2cart);
-var retrievedData = localStorage.getItem("quentinTarantino");
-console.log(retrievedData);
-incarts.push(retrievedData);
-alert(incarts);
+function addtocart(add2cart) {
+    localStorage.clear('quentinTarantino');
+    localStorage.setItem('quentinTarantino', add2cart);
+    var retrievedData = localStorage.getItem("quentinTarantino");
+    console.log(retrievedData);
+    incarts.push(retrievedData);
+    alert(incarts);
 }
 
-function getcart(){
-  console.log('functioncart');
-  console.log(incarts);
-  document.getElementById('cart').innerHTML = '';
-  incarts.forEach(function(incarts){
-    var apr = db.collection("PRODUCTS").where("name", "==", incarts);
-    apr.get().then(function (querySnapshot) {
-      console.log(querySnapshot.docs)
-      var cart_template = $('#cart_template').html();
-      var html = ejs.render(cart_template, { carts: querySnapshot.docs });
-      
-      $('#cart').append(html); 
-    
+function getcart() {
+    console.log('functioncart');
+    console.log(incarts);
+    document.getElementById('cart').innerHTML = '';
+    incarts.forEach(function (incarts) {
+        var apr = db.collection("PRODUCTS").where("name", "==", incarts);
+        apr.get().then(function (querySnapshot) {
+            console.log(querySnapshot.docs)
+            var cart_template = $('#cart_template').html();
+            var html = ejs.render(cart_template, { carts: querySnapshot.docs });
+
+            $('#cart').append(html);
+
+        })
+
     })
-    
-  })
 }
 
+function search(search) {
+    const filterItems = (needle, heystack) => {
+        let query = needle.toLowerCase();
+        return heystack.filter(product => product.data().name.toLowerCase().indexOf(needle) >= 0);
+    }
+    console.log(filterItems(search,data));
+    var product=filterItems(search,data);
+    localStorage.setItem(product,product);
+    console.log(product);
+    test(product);
+    document.getElementById(tabbar).setActiveTab(1);
+}
+
+const data = [];
+function total(){
+    console.log(search);
+    db.collection("PRODUCTS").get()
+    .then(function(querySnapshot){
+        querySnapshot.doc.forEach(function(product){
+            data.push(product);
+            console.log(data);
+        });
+    });
+}
+
+function test(product){
+    console.log(product);
+    var product_template = $('#product_template').html();
+    var html = ejs.render(product_template, {product : name});
+}
