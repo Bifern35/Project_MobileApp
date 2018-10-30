@@ -7,20 +7,17 @@ document.addEventListener('prechange', function (event) {
     } else if (event.index == 1) {
         console.log('Product clicked');
         // get data for product screen  
-        var category = localStorage.getItem('category');
+        var name1 = localStorage.getItem('name');
         var product = localStorage.getItem('products');
-        console.log(category)
+        console.log("test" + name1)
         // get data for all product screen  
-        if (category == null && product == null) {
-            console.log(category)
+        if (name1 == null && product == null) {
             getProductData();
         }
-        else if (category != null && product == null) {
-            getProductData(category)
+        else if (name1 != null && product == null) {
+            getProductData(name1)
+        } else {
             localStorage.clear();
-        }
-        else {
-            localStorage.clear10();
         }
     } else if (event.index == 2) {
         console.log('Cart clicked');
@@ -57,14 +54,13 @@ function getHomeData() {
     });
 }
 
-function getProductData(name) {
+function getProductData(name1) {
     //Get all product firebase
-    if (name == null) {
+    if (name1 == null) {
         var apr = db.collection("PRODUCTS")
         apr.get().then(function (querySnapshot) {
-
             var product_template = $('#product_template').html();
-            console.log(querySnapshot.doc);
+            console.log(querySnapshot);
             var html = ejs.render(product_template, { products: querySnapshot.docs });
             $('#products').html(html);
         })
@@ -131,28 +127,28 @@ function search(search) {
         let query = needle.toLowerCase();
         return heystack.filter(product => product.data().name.toLowerCase().indexOf(needle) >= 0);
     }
-    console.log(filterItems(search,data));
-    var product=filterItems(search,data);
-    localStorage.setItem(product,product);
+    console.log(filterItems(search, data));
+    var product = filterItems(search, data);
+    localStorage.setItem(product, product);
     console.log(product);
     test(product);
     document.getElementById(tabbar).setActiveTab(1);
 }
 
 const data = [];
-function total(){
+function total() {
     console.log(search);
     db.collection("PRODUCTS").get()
-    .then(function(querySnapshot){
-        querySnapshot.doc.forEach(function(product){
-            data.push(product);
-            console.log(data);
+        .then(function (querySnapshot) {
+            querySnapshot.doc.forEach(function (product) {
+                data.push(product);
+                console.log(data);
+            });
         });
-    });
 }
 
-function test(product){
+function test(product) {
     console.log(product);
     var product_template = $('#product_template').html();
-    var html = ejs.render(product_template, {product : name});
+    var html = ejs.render(product_template, { product: name });
 }
