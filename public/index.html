@@ -75,7 +75,7 @@
             <p style="text-align: center; margin-top: 10px;">
                 <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
             </p>
-            <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 300px;">
+            <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 260px;">
                 <ons-carousel-item id="carousel1" style="">
                 </ons-carousel-item>
                 <ons-carousel-item id="carousel2" style="">
@@ -89,7 +89,7 @@
             <script id="icon_template" type="text/template">
             <ons-row style="height:120px" vertical-align="center">  
             <% categories.forEach(function(category){%>  
-            <ons-col style="background:<%= category.color %>;" width="33%" onclick="changeTab('<%= category.name %>')">
+            <ons-col style="background:<%= category.color %>; border-style: outset;" width="33%" onclick="changeTab('<%= category.name %>')">
               
                 <p style="text-align: center; margin: 10px;">
                 <ons-icon size="60px" icon="<%= category.icon %>"></ons-icon>
