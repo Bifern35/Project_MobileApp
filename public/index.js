@@ -8,14 +8,15 @@ document.addEventListener('prechange', function (event) {
         console.log('Product clicked');
         // get data for product screen  
         var name1 = localStorage.getItem('name');
-        var product = localStorage.getItem('products');
-        console.log("test" + name1)
+        var products = localStorage.getItem('product');
+        console.log(name1)
         // get data for all product screen  
-        if (name1 == null && product == null) {
+        if (name1 == null && products == null) {
             getProductData();
         }
-        else if (name1 != null && product == null) {
+        else if (name1 != null && products == null) {
             getProductData(name1)
+            localStorage.clear();
         } else {
             localStorage.clear();
         }
@@ -28,6 +29,9 @@ document.addEventListener('prechange', function (event) {
 function changeTab(name) {
     localStorage.setItem('name', name);
     document.getElementById('tabbar').setActiveTab(1);
+}
+function gotocart(){
+    document.getElementById('tabbar').setActiveTab(2);
 }
 function getHomeData() {
     var docRef = db.collection("UI").doc("home");
