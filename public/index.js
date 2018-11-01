@@ -5,19 +5,19 @@ document.addEventListener('prechange', function (event) {
         console.log('Home clicked');
         getHomeData();
     } else if (event.index == 1) {
-        console.log('Product clicked');  
+        console.log('Product clicked');
         var namep = localStorage.getItem('name');
         var products = localStorage.getItem('products');
         console.log(namep)
-        console.log(products); 
+        console.log(products);
         if (namep == null && products == null) {
             getProductData();
         }
         else if (namep != null && products == null) {
             getProductData(namep)
-        } else {}
-            localStorage.clear();
-        
+        } else { }
+        localStorage.clear();
+
     } else if (event.index == 2) {
         console.log('Cart clicked');
         getcart();
@@ -117,7 +117,7 @@ function getcart() {
 
     })
 }
-function gotocart(){
+function gotocart() {
     document.getElementById('tabbar').setActiveTab(2);
 }
 function search(search) {
@@ -138,7 +138,7 @@ function total() {
     console.log(search);
     db.collection("PRODUCTS").get()
         .then(function (querySnapshot) {
-            querySnapshot.docs.forEach(function(product) {
+            querySnapshot.docs.forEach(function (product) {
                 data.push(product);
                 console.log(data);
             });

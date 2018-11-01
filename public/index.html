@@ -72,10 +72,10 @@
     </ons-navigator>
 
     <!-- home -->
-    <template id="tab1.html" >
+    <template id="tab1.html">
         <ons-page id="Tab1">
             <p style="text-align: center; margin-top: 15px;">
-                <ons-search-input placeholder="Search" onchange="search(this.value)" style="width:90% " ></ons-search-input>
+                <ons-search-input placeholder="Search" onchange="search(this.value)" style="width:90% "></ons-search-input>
             </p>
             <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 260px;">
                 <ons-carousel-item id="carousel1" style="">
@@ -211,10 +211,11 @@
                   <div class = "detailp">
                         <%= data.detail%>
                       </div>
-                      <ons-card>
-                    </ons-card>
+                      <br>
                   <ons-button modifier="large" onclick="addtocart('<%= data.name %>')">Add to Cart</ons-button>
+                </ons-card> 
                   <%})%>
+                
            </script>
         </ons-page>
     </template>
