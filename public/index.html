@@ -4,10 +4,10 @@
 <head>
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="ejs.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
@@ -34,23 +34,25 @@
     </script>
     <style>
         .toolbaricon {
-      padding-left: 5px;
-      padding-bottom: 5px;
-      padding-right: 5px;
-      color: white;
-    }
-  </style>
+            padding-left: 5px;
+            padding-bottom: 5px;
+            padding-right: 5px;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
     <ons-navigator swipeable id="myNavigator">
         <ons-page>
-            <ons-toolbar style="background:#B9264F;">
+            <ons-toolbar style="background:#FF9797;">
                 <div class="left">
                     <ons-icon class="toolbaricon" size="30px" icon="fa-shopping-bag">
                     </ons-icon>
                 </div>
-                <div class="center" id="appname" style="color: white;"><b>#</b></div>
+                <div class="center" id="appname" style="color: white;">
+                    <b>#</b>
+                </div>
                 <div class="right">
                     <ons-icon class="toolbaricon" size="30px" icon="md-help">
                     </ons-icon>
@@ -70,10 +72,10 @@
     </ons-navigator>
 
     <!-- home -->
-    <template id="tab1.html">
+    <template id="tab1.html" >
         <ons-page id="Tab1">
-            <p style="text-align: center; margin-top: 10px;">
-                <ons-search-input placeholder="Search" onchange="search(this.value)"></ons-search-input>
+            <p style="text-align: center; margin-top: 15px;">
+                <ons-search-input placeholder="Search" onchange="search(this.value)" style="width:90% " ></ons-search-input>
             </p>
             <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 260px;">
                 <ons-carousel-item id="carousel1" style="">
@@ -113,9 +115,8 @@
                     <ons-row style="height:90px" vertical-align="center">  
                     <% products.forEach(function(products){
                         var product = products.data();%> 
-                        
                         <ons-col width="50%" onclick="getDetail('<%= product.name%>')">
-                                <ons-card>
+                            <ons-card style="background:#FDB4BF;">
                             <div>
                             <div style="text-align: center; margin: 10px;">
                                 <img class="list-item__thumbnail" style="height: 100px;
@@ -147,7 +148,7 @@
                       <% carts.forEach(function(cart){
                           var cart = cart.data(); 
                         %>
-                        <ons-list-item class="productcart">
+                        <ons-list-item class="productcart" style="background:#FDB4BF;">
                           <div class="left">
                             <img class="list-item__thumbnail" src="<%=cart.img%>">
                           </div>
@@ -176,8 +177,8 @@
                 var productDetail = localStorage.getItem('detail');
                 console.log(productDetail)
             </script>
-            <ons-toolbar style="background:#B9264F;">
-                <div class="left" >
+            <ons-toolbar style="background:#FF9797;">
+                <div class="left">
                     <ons-back-button style="color:white;">Back</ons-back-button>
                 </div>
                 <div class="center" style="color:white;">Detail</div>
@@ -190,38 +191,33 @@
             <div id="showDetail"></div>
 
             <script id="productDetail_template" type="text/template">
-                <ons-card>
+                <ons-card style="background:#FDB4BF;">
                     <% productDetail.forEach(function(productDetail){   
                         var data = productDetail.data(); %>
                   <ons-carousel swipeable auto-scroll overscrollable id="carousel" style="height: 250px; margin: 5px;" >
                     
                         <ons-carousel-item id="carousel1DeP" style="background: url('<%= data.img%>') no-repeat center; background-size: contain;">
                         </ons-carousel-item>
-          
                  </ons-carousel>
-                 <br>
+                 
+                 <div style="color: blue">
+                    ฿<%= data.price%>
+                  </div>
                  <div class="namep">
                     <%= data.name %>
                   </div> 
-                  <br>
-                  <div style="color: blue">
-                    ฿<%= data.price%>
-                  </div><br>
+                  
+                  <ons-card>
                   <div class = "detailp">
                         <%= data.detail%>
                       </div>
+                      <ons-card>
                     </ons-card>
                   <ons-button modifier="large" onclick="addtocart('<%= data.name %>')">Add to Cart</ons-button>
                   <%})%>
-
-                
-                
            </script>
-
         </ons-page>
     </template>
-
-
     <script src="index.js"></script>
 </body>
 

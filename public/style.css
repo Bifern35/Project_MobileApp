@@ -1,13 +1,16 @@
+*{
+    font-family: 'Kanit', sans-serif;
+}
 .products{
-    font-size: 10pt; 
+    font-size: 12pt; 
 }
 .productcart{
-    font-size: 10pt; 
+    font-size: 12pt; 
 }
 .detailp{
-    font-size: 5pt; 
+    font-size: 12pt; 
 }
 .namep{
     margin: 10px;
-    font-size: 15pt; 
+    font-size: 15pt;
 }

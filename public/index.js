@@ -3,28 +3,23 @@ total();
 document.addEventListener('prechange', function (event) {
     if (event.index == 0) {
         console.log('Home clicked');
-        // get data for home screen  
         getHomeData();
     } else if (event.index == 1) {
-        console.log('Product clicked');
-        // get data for product screen  
-        var name1 = localStorage.getItem('name');
+        console.log('Product clicked');  
+        var namep = localStorage.getItem('name');
         var products = localStorage.getItem('products');
-        console.log(name1)
-        console.log(products);
-        
-        // get data for all product screen  
-        if (name1 == null && products == null) {
+        console.log(namep)
+        console.log(products); 
+        if (namep == null && products == null) {
             getProductData();
         }
-        else if (name1 != null && products == null) {
-            getProductData(name1)
+        else if (namep != null && products == null) {
+            getProductData(namep)
         } else {}
             localStorage.clear();
         
     } else if (event.index == 2) {
         console.log('Cart clicked');
-        // get data for cart screen  
         getcart();
     }
 });
@@ -52,7 +47,6 @@ function getHomeData() {
             var html = ejs.render(icon_template, { categories: data.categories });
             $('#icons').html(html);
         } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
         }
     }).catch(function (error) {
@@ -60,9 +54,8 @@ function getHomeData() {
     });
 }
 
-function getProductData(name1) {
-    //Get all product firebase
-    if (name1 == null) {
+function getProductData(namep) {
+    if (namep == null) {
         var apr = db.collection("PRODUCTS")
         apr.get().then(function (querySnapshot) {
             var product_template = $('#product_template').html();
@@ -72,7 +65,7 @@ function getProductData(name1) {
         })
     }
     else {
-        var apr = db.collection("PRODUCTS").where("category", "==", name1);//.where("category", "==", "sport"); //เลือกเฉพาะ
+        var apr = db.collection("PRODUCTS").where("category", "==", namep);//.where("category", "==", "sport"); //เลือกเฉพาะ
         apr.get().then(function (querySnapshot) {
             var product_template = $('#product_template').html();
             console.log(querySnapshot);
