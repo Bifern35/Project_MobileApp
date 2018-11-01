@@ -27,9 +27,7 @@ function changeTab(name) {
     localStorage.setItem('name', name);
     document.getElementById('tabbar').setActiveTab(1);
 }
-function gotocart(){
-    document.getElementById('tabbar').setActiveTab(2);
-}
+
 function getHomeData() {
     var docRef = db.collection("UI").doc("home");
     docRef.get().then(function (doc) {
@@ -119,7 +117,9 @@ function getcart() {
 
     })
 }
-
+function gotocart(){
+    document.getElementById('tabbar').setActiveTab(2);
+}
 function search(search) {
     const filterItems = (needle, heystack) => {
         let query = needle.toLowerCase();
