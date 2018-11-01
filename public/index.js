@@ -1,4 +1,5 @@
 getHomeData();
+total();
 document.addEventListener('prechange', function (event) {
     if (event.index == 0) {
         console.log('Home clicked');
@@ -8,18 +9,19 @@ document.addEventListener('prechange', function (event) {
         console.log('Product clicked');
         // get data for product screen  
         var name1 = localStorage.getItem('name');
-        var products = localStorage.getItem('product');
+        var products = localStorage.getItem('products');
         console.log(name1)
+        console.log(products);
+        
         // get data for all product screen  
         if (name1 == null && products == null) {
             getProductData();
         }
         else if (name1 != null && products == null) {
             getProductData(name1)
+        } else {}
             localStorage.clear();
-        } else {
-            localStorage.clear();
-        }
+        
     } else if (event.index == 2) {
         console.log('Cart clicked');
         // get data for cart screen  
@@ -118,7 +120,6 @@ function getcart() {
             console.log(querySnapshot.docs)
             var cart_template = $('#cart_template').html();
             var html = ejs.render(cart_template, { carts: querySnapshot.docs });
-
             $('#cart').append(html);
 
         })
@@ -133,10 +134,10 @@ function search(search) {
     }
     console.log(filterItems(search, data));
     var product = filterItems(search, data);
-    localStorage.setItem(product, product);
+    localStorage.setItem('products', product);
     console.log(product);
-    test(product);
-    document.getElementById(tabbar).setActiveTab(1);
+    showSearch(product);
+    document.getElementById('tabbar').setActiveTab(1);
 }
 
 const data = [];
@@ -144,15 +145,16 @@ function total() {
     console.log(search);
     db.collection("PRODUCTS").get()
         .then(function (querySnapshot) {
-            querySnapshot.doc.forEach(function (product) {
+            querySnapshot.docs.forEach(function(product) {
                 data.push(product);
                 console.log(data);
             });
         });
 }
 
-function test(product) {
+function showSearch(product) {
     console.log(product);
     var product_template = $('#product_template').html();
-    var html = ejs.render(product_template, { product: name });
+    var html = ejs.render(product_template, { products: product });
+    $('#products').html(html);
 }
